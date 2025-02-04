@@ -3,14 +3,14 @@
  * It exposes methods for specific endpoints
  */
 
-import { wrapEndpoint } from './config';
+import { wrapEndpoint } from './lib';
 
 export type MembersResponse = {
    name: string;
    bio: string;
 }[];
 
-type JobsResponse = {
+export type JobsResponse = {
    title: string;
    location: string;
 }[];
