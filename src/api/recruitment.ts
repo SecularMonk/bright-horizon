@@ -5,7 +5,7 @@
 
 import { wrapEndpoint } from './config';
 
-type MembersResponse = {
+export type MembersResponse = {
    name: string;
    bio: string;
 }[];
