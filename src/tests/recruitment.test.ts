@@ -1,5 +1,5 @@
 import { queryJobsAPI, queryMembersAPI } from '../api/recruitment';
-import { wrapEndpoint } from '../api/config';
+import { wrapEndpoint } from '../api/lib';
 
 describe('API', () => {
    describe('API wrapper', () => {
