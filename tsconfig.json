@@ -5,6 +5,14 @@
       }
    },
    "compilerOptions": {
-      "module": "esnext"
+      "target": "es2016",
+      "module": "NodeNext",
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "allowImportingTsExtensions": true,
+      "noEmit": true,
+      "strict": true,
+      "noImplicitAny": false,
+      "skipLibCheck": true
    }
 }
