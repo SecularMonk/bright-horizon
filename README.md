@@ -22,13 +22,13 @@ The data available is uncategorised, so requires some parsing and transformation
 
 > "I'm looking for a job in marketing outside of London"
 
-Our goal is to examine this sentence and extract the desired field (marketing) and location (outside of London). "A challenge arises with modifiers like 'outside of,' where a naive match would yield incorrect results.
+Our goal is to examine this sentence and extract the desired field (marketing) and location (outside of London). A challenge arises with modifiers like 'outside of,' where a naive match would yield incorrect results.
 
 There are 2 good options for doing this: Natural Language Processing (NLP), and using an LLM like ChatGPT.
 
 Given the scale of available jobs at any given time (likely thousands), and userbases with a very high upper limit, using ChatGPT would become very expensive very quickly without a little pre-processing. For that reason I opted to use an NLP approach to reduce the size of the dataset, which still leaves room for an LLM to improve the final matching.
 
-An alternativee would be to use an LLM in combination with keyword filtering to limit the dataset size. This would provide higher accuracy at the cost of increased compute expense. I chose the NLP approach instead so that the logic behind matching & extracting data would be clearer for this exercise.
+An alternative would be to use an LLM in combination with keyword filtering to limit the dataset size. This would provide higher accuracy at the cost of increased compute expense. I chose the NLP approach instead so that the logic behind matching & extracting data would be clearer for this exercise.
 
 ### Solution
 
@@ -51,15 +51,27 @@ I opted for a simple matching and ranking algorithm leveraging `Fuse.js` and an 
 7. Generate a score for each of these
 8. Rank the jobs based on that score
 
+The final score is the sum of the scores returned by the Fuse.js fuzzy match. This way, we capture the closeness of each job to the user's requirements across both available dimensions. Jobs are ranked in descending order based on this score.
+
+#### Expansions
+
+It is possible to add additional dimensions like skillset and industry, by expanding this approach. If expanding, making the interfaces more generic would improve scalability and make it configurable.
+
+It's also possible to weigh each score to give greater preference to one aspect of the search. For example, to prioritise the job description over the location, we could multiply the job description score by a constant prior to ranking.
+
 #### Caveats
 
 As mentioned above, there are limitations to the `compromise` library. It didn't appear to be able to distinguish between the phrases _in London_ and _outside of London_, and for both would produce the same result. It's possible that with some extra massaging it could perform better, but if not this is a likely candidate for and LLM.
 
+If data is missing, e.g if a location cannot be determined, then we are still able to rank based on the remaining scores. If no data was able to be extracted, then a ranking is not possible, and the application will display a message.
+
 ## Infrastructure & testing
 
-I added Docker support, since I expect something like this would be run on cloud architecture and would need containerised. It's missing healthchecks to facilitate this but that's easily enough added.
+I added `Docker` support, since I expect something like this would be run on cloud architecture and would need containerised. It's missing healthchecks to facilitate this but that's easily enough added.
 
-I used Jest for testing, and included some unit tests. With more time I'd like to include some integration tests.
+I used `Jest` for testing, and included some unit tests. With more time I'd like to include some integration tests.
+
+I included the `Winston` library for logging.
 
 ## Running the project
 
