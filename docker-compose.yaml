@@ -1,13 +1,14 @@
 services:
    recommendations:
-     build:
-       context: .
-       dockerfile: Dockerfile
-     volumes:
-       - ./src:/home/node/app/src
-     container_name: recommendations
-     expose:
-       - '3000'
-     ports:
-       - '3000:3000'
-     command: npm run recommendations
+      build:
+         context: .
+         dockerfile: Dockerfile
+      volumes:
+         - ./src:/home/node/app/src
+      container_name: recommendations
+      expose:
+         - '3000'
+      ports:
+         - '3000:3000'
+      command: npm run recommendations
+      env_file: .env
