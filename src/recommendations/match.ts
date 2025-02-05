@@ -33,6 +33,7 @@ export function generateMatches(jobs: JobsResponse, members: MembersResponse) {
       fuseSettings
    );
 
+   const totalScores: JobScore[] = [];
    for (const member of members) {
       const doc = nlp(member.bio);
       const desiredJobs: string[] = doc.nouns().out('array');
@@ -48,14 +49,15 @@ export function generateMatches(jobs: JobsResponse, members: MembersResponse) {
          locationsFuse
       );
 
-      const totalScores = generateJobScores(
+      const userScores = generateJobScores(
          jobs,
          matchingJobs,
          matchingLocations
       );
-      displayScores(totalScores, member.name);
-      return totalScores;
+      displayScores(userScores, member.name);
+      totalScores.push(...userScores);
    }
+   return totalScores;
 }
 
 export function findDistinctMatchesWithWeights(
