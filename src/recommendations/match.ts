@@ -54,6 +54,7 @@ export function generateMatches(jobs: JobsResponse, members: MembersResponse) {
          matchingLocations
       );
       displayScores(totalScores, member.name);
+      return totalScores;
    }
 }
 
